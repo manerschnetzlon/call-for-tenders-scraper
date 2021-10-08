@@ -1,2 +1,11 @@
 <h1>Hello scraping</h1>
 <%= link_to "scrape", scrape_path %>
+
+<ul>
+  <% @offers.each do |offer| %>
+    <li>
+      <%= offer.title %>
+      <%= offer.end_date %>
+    </li>
+  <% end %>
+</ul>
