@@ -22,6 +22,7 @@ class OffersController < ApplicationController
                                        offers_selectors: '.list-organisme > .orga' }
 
       scrape_site(eurolegales_attributes)
+      scrape_site(centreofficielles_attributes)
     end
     redirect_to offers_path
   end
@@ -29,11 +30,7 @@ class OffersController < ApplicationController
   private
 
   def scrape_site(attributes)
-    html_doc = Nokogiri::HTML(open(attributes[:url] + attributes[:queries]).read)
-
-    pages = html_doc.search(attributes[:pagination_selectors]).map { |page| page.attribute('href').value }.uniq
-    pages_number = pages.empty? ? 1 : pages.map { |page| page.match(attributes[:pagination_regex])[1].to_i }.max
-    # TODO MORE THAN 10 PAGES
+    pages_number = find_pages_number(attributes)
 
     (1..pages_number).to_a.each do |page|
       url = attributes[:url] + attributes[:queries].gsub(attributes[:queries].match(/\d+/)[0], page.to_s)
@@ -45,6 +42,17 @@ class OffersController < ApplicationController
         create_centreofficielles_offer(offer) if attributes[:url] == 'https://www.centreofficielles.com'
       end
     end
+  end
+
+  def find_pages_number(attributes)
+    html_doc = Nokogiri::HTML(open(attributes[:url] + attributes[:queries]).read)
+    pages = html_doc.search(attributes[:pagination_selectors]).map { |page| page.attribute('href').value }.uniq
+    max_pages_number = pages.empty? ? 1 : pages.map { |page| page.match(attributes[:pagination_regex])[1].to_i }.max
+    current_page = attributes[:queries].match(/\d+/)[0].to_i
+    return current_page if current_page >= max_pages_number
+
+    attributes[:queries] = attributes[:queries].gsub(current_page.to_s, max_pages_number.to_s)
+    find_pages_number(attributes)
   end
 
   def create_eurolegales_offer(offer)
@@ -83,7 +91,7 @@ class OffersController < ApplicationController
 
   # TODO NEXT
   ###########
-  # scrap centreofficielle
+  # scrap centreofficielle => OK
   # view index offers
   # view show offer
   # edit offer
