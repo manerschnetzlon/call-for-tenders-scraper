@@ -64,7 +64,9 @@ class Scraper
     html_description = html_doc.at('.texte').inner_html
     offer_hash[:description] = html_description
     html_publication_date = html_doc.at(':contains("Date d\'envoi du présent avis"):not(:has(:contains("Date d\'envoi du présent avis")))')
-    offer_hash[:publication_date] = html_publication_date.next.text.to_date unless html_publication_date.nil?
+    unless html_publication_date.nil?
+      offer_hash[:publication_date] = html_publication_date.next.text.to_date unless html_publication_date.next.nil?
+    end
     create_offer(offer_hash)
   end
 

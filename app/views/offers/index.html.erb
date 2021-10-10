@@ -3,27 +3,31 @@
   <%= link_to "Récupérer appels d'offres", scrape_path, class: 'btn btn-cyan btn-rounded btn-shadow m-1' %>
 </div>
 
-<div class="container rounded border my-5 pb-3 bg-white">
-  <div class="grid">
+<% if @offers.empty? %>
+  <p class="text-center mt-4">Il n'y a actuellement aucune offre à afficher.</p>
+<% else %>
+  <div class="container rounded border my-5 pb-3 bg-white">
+    <div class="grid">
 
-    <span class="header element"><strong>Titre</strong></span>
-    <span class="header element"><strong>Publication</strong></span>
-    <span class="header element"><strong>Date limite</strong></span>
-    <span class="header element"><strong></strong></span>
-    <span class="header element"><strong></strong></span>
+      <span class="header element"><strong>Titre</strong></span>
+      <span class="header element"><strong>Publication</strong></span>
+      <span class="header element"><strong>Date limite</strong></span>
+      <span class="header element"><strong></strong></span>
+      <span class="header element"><strong></strong></span>
 
-    <% @offers.each do |offer| %>
-      <%= link_to offer.link, class:'title element' do %>
-        <span><%= offer.title.capitalize %></span>
+      <% @offers.each do |offer| %>
+        <%= link_to offer.link, class:'title element', target: :_blank do %>
+          <span><%= offer.title.capitalize %></span>
+        <% end %>
+        <span class='publication_date element font-weight-bold'><%= offer.publication_date %></span>
+        <span class='end_date element font-weight-bold'><%= offer.end_date %></span>
+        <%= link_to edit_offer_path(offer), class:'edit element' do %>
+          <span>Modifier</span>
+        <% end %>
+        <%= link_to offer_path(offer), method: :delete, data: { confirm: "Etes-vous sûr de vouloir supprimer cette offre?" }, class:'delete element' do %>
+          <span>Supprimer</span>
+        <% end %>
       <% end %>
-      <span class='publication_date element'><%= offer.publication_date %></span>
-      <span class='end_date element'><%= offer.end_date %></span>
-      <%= link_to edit_offer_path(offer), class:'edit element' do %>
-        <span>Modifier</span>
-      <% end %>
-      <%= link_to offer_path(offer), method: :delete, data: { confirm: "Etes-vous sûr de vouloir supprimer cette offre?" }, class:'delete element' do %>
-        <span>Supprimer</span>
-      <% end %>
-    <% end %>
+    </div>
   </div>
-</div>
+<% end %>

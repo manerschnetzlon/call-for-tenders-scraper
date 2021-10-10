@@ -1,5 +1,5 @@
 class OffersController < ApplicationController
-  before_action :set_offer, only: [:edit, :update, :destroy]
+  before_action :set_offer, only: %i[edit update destroy]
 
   def index
     @offers = Offer.all.order(created_at: :desc)
@@ -17,7 +17,7 @@ class OffersController < ApplicationController
   end
 
   def scrape
-    words_to_search = ["prevoyance", "complementaire sante"]
+    words_to_search = ['prevoyance', 'complementaire sante']
     words_to_search.each do |word|
       eurolegales = { url: 'https://www.eurolegales.com',
                       queries: "/Recherche/France?quoi=#{word.parameterize(separator: '+')}&ta=AppelOffre&page=1",
@@ -46,13 +46,4 @@ class OffersController < ApplicationController
   def offer_params
     params.require(:offer).permit(:title, :end_date, :publication_date)
   end
-
-  # TODO NEXT
-  ###########
-  # scrap centreofficielle => OK
-  # service => ok
-  # view index offers => ok
-  # view show offer
-  # edit offer
-  # verifier
 end
