@@ -1,24 +1,5 @@
-# README
+# Scraper appels d'offres
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+La plateforme récupère, depuis les sites [centreofficielles.com](https://centreofficielles.com) et [eurolegales.com](https://www.eurolegales.com), les appels d'offres correspondant aux thématiques **complémentaire santé** et **prévoyance**.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+>> En production [ici](https://appels-offres-scraper-hoggo.herokuapp.com)
