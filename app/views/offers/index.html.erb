@@ -1,9 +1,9 @@
-<div class="head d-flex flex-row justify-content-around align-items-center py-3 sticky-top shadow-sm">
+<div class="head d-flex flex-row justify-content-around align-items-center py-3 sticky-top shadow-sm bg-white">
   <h2>Appels d'offres <strong>prévoyance</strong> & <strong>complémentaire santé</strong></h2>
   <%= link_to "Récupérer appels d'offres", scrape_path, class: 'btn btn-cyan btn-rounded btn-shadow m-1' %>
 </div>
 
-<div class="container border my-5 pb-3">
+<div class="container rounded border my-5 pb-3 bg-white">
   <div class="grid">
 
     <span class="header element"><strong>Titre</strong></span>
@@ -19,10 +19,10 @@
       <span class='publication_date element'><%= offer.publication_date %></span>
       <span class='end_date element'><%= offer.end_date %></span>
       <%= link_to edit_offer_path(offer), class:'edit element' do %>
-        <span>Edit</span>
+        <span>Modifier</span>
       <% end %>
       <%= link_to offer_path(offer), method: :delete, data: { confirm: "Etes-vous sûr de vouloir supprimer cette offre?" }, class:'delete element' do %>
-        <span>Delete</span>
+        <span>Supprimer</span>
       <% end %>
     <% end %>
   </div>

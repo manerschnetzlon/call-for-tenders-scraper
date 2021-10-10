@@ -1,17 +1,37 @@
 .btn {
-  padding: 10px 25px;
-  transition: background-color 0.15s ease-in-out;
-  font-weight: 600;
-  font-size: larger;
-}
-
-.btn-cyan {
   color: #fff;
-  background-color: #27C2D1;
+  transition: background-color, color 0.15s ease-in-out;
 
   &:hover {
     color: #fff;
+  }
+}
+
+.btn-cyan {
+  background-color: #27C2D1;
+  font-weight: 600;
+  font-size: larger;
+  padding: 10px 25px;
+
+  &:hover {
     background-color: #1f9aa6;
+  }
+}
+
+.btn-purple {
+  background-color: #33038b;
+  padding: 5px 15px;
+
+  &:hover {
+    background-color: #22035e;
+  }
+}
+
+.btn-back {
+  color: black;
+
+  &:hover {
+    color: rgb(70, 70, 70);
   }
 }
 
@@ -22,3 +42,4 @@
 .btn-shadow {
   box-shadow: 0 3px 6px #2c2d5057;
 }
+

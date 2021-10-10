@@ -1,7 +1,12 @@
-<%= @offer.title %>
-<%= simple_form_for @offer do |f| %>
-  <%= f.input :title %>
-  <%= f.input :publication_date, as: :date %>
-  <%= f.input :end_date, as: :date %>
-  <%= f.button :submit %>
+<div class="container rounded border my-5 p-5 bg-white w-50">
+  <h4 class="pb-4 text-justify"><strong>Modifier : </strong><%= @offer.title.capitalize %></h4>
+  <%= simple_form_for @offer do |f| %>
+    <%= f.input :title, label: 'Titre' %>
+    <%= f.input :publication_date, as: :date, include_blank: true, label: 'Date de publication' %>
+    <%= f.input :end_date, as: :date, include_blank: true, label: 'Date de limite de candidature' %>
+    <div class="d-flex flex-row justify-content-center mt-5">
+      <%= f.button :submit, "Enregistrer", class: "btn btn-purple btn-rounded btn-shadow" %>
+      <%= link_to "Retour", offers_path, class:"btn btn-back" %>
+    </div>
+  </div>
 <% end %>
