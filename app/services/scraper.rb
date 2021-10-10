@@ -16,10 +16,9 @@ class Scraper
       url = @url + @queries.gsub(@queries.match(/\d+/)[0], page.to_s)
       html_offers_doc = Nokogiri::HTML(open(url).read)
       offers = html_offers_doc.search(@offers_selectors)
-
       offers.each do |offer|
         create_eurolegales_offer(offer) if @url == 'https://www.eurolegales.com'
-        create_centreofficielles_offer(offer) if @url == 'https://www.centreofficielles.com'
+        create_centreofficielles_offer(offer) if @url == 'https://www.centreofficielles.com/'
       end
     end
   end
@@ -39,11 +38,15 @@ class Scraper
     td_elements = offer.search('td')
     offer_hash = { reference: td_elements.last.text,
                    title: td_elements.first.text,
-                   link: "https://www.eurolegales.com#{td_elements.first.search('a').first.attribute('href').value}" }
+                   link: "https://www.eurolegales.com#{td_elements.first.search('a').first.attribute('href').value}",
+                   publication_date: Date.strptime(td_elements[1].text, '%d/%m/%y') }
 
-    html_date = Nokogiri::HTML(open(offer_hash[:link]).read).at('strong:contains("Remise")')
-    unless html_date.nil?
-      date = html_date.next.instance_of?(Nokogiri::XML::Element) ? html_date.next_element : html_date.next
+    html_doc = Nokogiri::HTML(open(offer_hash[:link]).read)
+    html_description = html_doc.at('.description').inner_html
+    offer_hash[:description] = html_description
+    html_end_date = html_doc.at('strong:contains("Remise")')
+    unless html_end_date.nil?
+      date = html_end_date.next.instance_of?(Nokogiri::XML::Element) ? html_end_date.next_element : html_end_date.next
       offer_hash[:end_date] = Date.strptime(date.text.match(%r{^(\d+\/\d+\/\d+)})[1], '%d/%m/%y') unless date.nil?
     end
     create_offer(offer_hash)
@@ -55,8 +58,13 @@ class Scraper
     reference = link.match(/_(\d+_\d+).html/)[1]
     offer_hash = { reference: reference,
                    title: offer.search('.resultatOrganismeMilieu > p').text,
-                   link: "https://www.centreofficielles.com#{link}",
+                   link: "https://www.centreofficielles.com/#{link}",
                    end_date: Date.strptime(date, '%d/%m/%Y') }
+    html_doc = Nokogiri::HTML(open(offer_hash[:link]).read)
+    html_description = html_doc.at('.texte').inner_html
+    offer_hash[:description] = html_description
+    html_publication_date = html_doc.at(':contains("Date d\'envoi du présent avis"):not(:has(:contains("Date d\'envoi du présent avis")))')
+    offer_hash[:publication_date] = html_publication_date.next.text.to_date unless html_publication_date.nil?
     create_offer(offer_hash)
   end
 
@@ -66,6 +74,8 @@ class Scraper
     Offer.create(reference: offer_hash[:reference],
                  title: offer_hash[:title],
                  link: offer_hash[:link],
+                 description: offer_hash[:description],
+                 publication_date: offer_hash[:publication_date],
                  end_date: offer_hash[:end_date])
   end
 end

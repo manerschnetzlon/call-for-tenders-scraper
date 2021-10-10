@@ -1,12 +1,48 @@
 <h1>Hello scraping</h1>
 <%= link_to "scrape", scrape_path %>
 
-<ul>
-  <% @offers.each do |offer| %>
-    <li>
-      <%= offer.title %>
-      <%= offer.end_date %>
-      <%= offer.link %>
-    </li>
-  <% end %>
-</ul>
+<table>
+  <thead>
+    <tr>
+      <th>Titre</th>
+      <%# <th>Lien</th> %>
+      <th>Date limite</th>
+      <th>Date publication</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @offers.each do |offer| %>
+      <tr>
+          <th>
+            <%= offer.title.capitalize %>
+          </th>
+          <%# <th> %>
+            <%#= offer.link %>
+          <%# </th> %>
+          <th>
+            <%= offer.end_date %>
+          </th>
+          <th>
+            <%= offer.publication_date %>
+          </th>
+          <th>
+            <%= link_to 'Delete', offer_path(offer), method: :delete, data: { confirm: "Etes-vous sûr de vouloir supprimer cette offre?" }, remote: true %>
+          </th>
+          </th>
+          <th>
+            <%= link_to 'Edit', edit_offer_path(offer) %>
+          </th>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%# <ul> %>
+  <%# @offers.each do |offer| %>
+    <%# <li> %>
+      <%#= offer.title %>
+      <%#= offer.end_date %>
+      <%#= offer.link %>
+    <%# </li> %>
+  <%# end %>
+<%# </ul> %>
