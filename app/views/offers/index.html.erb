@@ -9,14 +9,21 @@
     <span class="header element"><strong>Titre</strong></span>
     <span class="header element"><strong>Publication</strong></span>
     <span class="header element"><strong>Date limite</strong></span>
+    <span class="header element"><strong></strong></span>
+    <span class="header element"><strong></strong></span>
 
     <% @offers.each do |offer| %>
-      <%= link_to offer_path(offer), class:'title element' do %>
+      <%= link_to offer.link, class:'title element' do %>
         <span><%= offer.title.capitalize %></span>
       <% end %>
       <span class='publication_date element'><%= offer.publication_date %></span>
       <span class='end_date element'><%= offer.end_date %></span>
+      <%= link_to edit_offer_path(offer), class:'edit element' do %>
+        <span>Edit</span>
+      <% end %>
+      <%= link_to offer_path(offer), method: :delete, data: { confirm: "Etes-vous sûr de vouloir supprimer cette offre?" }, class:'delete element' do %>
+        <span>Delete</span>
+      <% end %>
     <% end %>
   </div>
 </div>
-
