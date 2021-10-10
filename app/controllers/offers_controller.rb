@@ -3,6 +3,10 @@ class OffersController < ApplicationController
     @offers = Offer.all.order(created_at: :desc)
   end
 
+  def show
+    @offer = Offer.find(params[:id])
+  end
+
   def destroy
     @offer = Offer.find(params[:id])
     @offer.destroy
@@ -10,8 +14,8 @@ class OffersController < ApplicationController
   end
 
   def scrape
-    words_to_search = ["ensemble immobilier"]
-    # words_to_search = ["prevoyance", "complementaire sante"]
+    # words_to_search = ["ensemble immobilier"]
+    words_to_search = ["prevoyance", "complementaire sante"]
     words_to_search.each do |word|
       eurolegales = { url: 'https://www.eurolegales.com',
                       queries: "/Recherche/France?quoi=#{word.parameterize(separator: '+')}&ta=AppelOffre&page=1",
@@ -25,7 +29,7 @@ class OffersController < ApplicationController
                             pagination_regex: /_________(\d+)/,
                             offers_selectors: '.list-organisme > .orga' }
 
-      # Scraper.new(eurolegales).call
+      Scraper.new(eurolegales).call
       Scraper.new(centreofficielles).call
     end
     redirect_to offers_path
@@ -38,6 +42,5 @@ class OffersController < ApplicationController
   # view index offers
   # view show offer
   # edit offer
-  # destroy offer => add completed field in db
   # verifier
 end

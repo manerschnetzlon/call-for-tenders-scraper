@@ -1,48 +1,22 @@
-<h1>Hello scraping</h1>
-<%= link_to "scrape", scrape_path %>
+<div class="head d-flex flex-row justify-content-around align-items-center py-3 sticky-top shadow-sm">
+  <h2>Appels d'offres <strong>prévoyance</strong> & <strong>complémentaire santé</strong></h2>
+  <%= link_to "Récupérer appels d'offres", scrape_path, class: 'btn btn-cyan btn-rounded btn-shadow m-1' %>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Titre</th>
-      <%# <th>Lien</th> %>
-      <th>Date limite</th>
-      <th>Date publication</th>
-    </tr>
-  </thead>
-  <tbody>
+<div class="container border my-5 pb-3">
+  <div class="grid">
+
+    <span class="header element"><strong>Titre</strong></span>
+    <span class="header element"><strong>Publication</strong></span>
+    <span class="header element"><strong>Date limite</strong></span>
+
     <% @offers.each do |offer| %>
-      <tr>
-          <th>
-            <%= offer.title.capitalize %>
-          </th>
-          <%# <th> %>
-            <%#= offer.link %>
-          <%# </th> %>
-          <th>
-            <%= offer.end_date %>
-          </th>
-          <th>
-            <%= offer.publication_date %>
-          </th>
-          <th>
-            <%= link_to 'Delete', offer_path(offer), method: :delete, data: { confirm: "Etes-vous sûr de vouloir supprimer cette offre?" }, remote: true %>
-          </th>
-          </th>
-          <th>
-            <%= link_to 'Edit', edit_offer_path(offer) %>
-          </th>
-      </tr>
+      <%= link_to offer_path(offer), class:'title element' do %>
+        <span><%= offer.title.capitalize %></span>
+      <% end %>
+      <span class='publication_date element'><%= offer.publication_date %></span>
+      <span class='end_date element'><%= offer.end_date %></span>
     <% end %>
-  </tbody>
-</table>
+  </div>
+</div>
 
-<%# <ul> %>
-  <%# @offers.each do |offer| %>
-    <%# <li> %>
-      <%#= offer.title %>
-      <%#= offer.end_date %>
-      <%#= offer.link %>
-    <%# </li> %>
-  <%# end %>
-<%# </ul> %>

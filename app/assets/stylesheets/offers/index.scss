@@ -1,3 +1,32 @@
 // Place all the styles related to the offers controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+.head {
+  background-color: #FAFBFC;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 6fr 1fr 1fr;
+
+  .header {
+    font-size: larger;
+    align-self: end;
+  }
+
+  strong {
+    color: #1C014D;
+  }
+
+  .element {
+    border-bottom: 1px solid #d9d9d9;
+    padding: 15px;
+    color: #2b2b2b;
+  }
+
+  .title:hover,
+  .title:hover + .publication_date,
+  .title:hover + .publication_date + .end_date {
+    background-color: #EFF2F5;
+    text-decoration: none;
+  }
+}
