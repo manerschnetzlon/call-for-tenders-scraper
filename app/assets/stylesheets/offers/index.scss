@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 .grid {
   display: grid;
-  grid-template-columns: 8fr 2fr 2fr 1fr 1fr;
+  grid-template-columns: 8fr 2fr 2fr 1fr;
 
   .header {
     font-size: larger;
@@ -23,8 +23,7 @@
   .title:hover,
   .title:hover + .publication_date,
   .title:hover + .publication_date + .end_date,
-  .title:hover + .publication_date + .end_date + .edit,
-  .title:hover + .publication_date + .end_date + .edit + .delete {
+  .title:hover + .publication_date + .end_date + .edit {
     background-color: #EFF2F5;
     text-decoration: none;
   }

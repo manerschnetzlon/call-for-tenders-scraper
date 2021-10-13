@@ -56,6 +56,8 @@ class Scraper
     link = offer.search('.resultatOrganismeBasTab2 > p > a').first.attribute('href').value
     date = offer.search('.resultatOrganismeBas').text.match(%r{\d+\/\d+\/\d+})[0]
     reference = link.match(/_(\d+_\d+).html/)[1]
+    return if Offer.exists?(reference: reference)
+
     offer_hash = { reference: reference,
                    title: offer.search('.resultatOrganismeMilieu > p').text,
                    link: "https://www.centreofficielles.com/#{link}",
@@ -71,8 +73,6 @@ class Scraper
   end
 
   def create_offer(offer_hash)
-    return if Offer.exists?(reference: offer_hash[:reference])
-
     Offer.create(reference: offer_hash[:reference],
                  title: offer_hash[:title],
                  link: offer_hash[:link],

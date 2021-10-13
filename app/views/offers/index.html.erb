@@ -13,7 +13,6 @@
       <span class="header element"><strong>Publication</strong></span>
       <span class="header element"><strong>Date limite</strong></span>
       <span class="header element"><strong></strong></span>
-      <span class="header element"><strong></strong></span>
 
       <% @offers.each do |offer| %>
         <%= link_to offer.link, class:'title element', target: :_blank do %>
@@ -23,9 +22,6 @@
         <span class='end_date element font-weight-bold'><%= offer.end_date %></span>
         <%= link_to edit_offer_path(offer), class:'edit element' do %>
           <span>Modifier</span>
-        <% end %>
-        <%= link_to offer_path(offer), method: :delete, data: { confirm: "Etes-vous sûr de vouloir supprimer cette offre?" }, class:'delete element' do %>
-          <span>Supprimer</span>
         <% end %>
       <% end %>
     </div>
